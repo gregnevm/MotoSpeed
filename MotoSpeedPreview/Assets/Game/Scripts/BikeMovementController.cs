@@ -7,25 +7,29 @@ public class BikeMovementController : MonoBehaviour
     [SerializeField] private float _accelerationPower = 10f;
     [SerializeField] private float _maxSpeed = 3f;
     [SerializeField] private List<WheelJoint2D> _wheels;
-    [SerializeField] private Transform _bikePivotTransform;
+
+    public static bool isMovementBlocked;
 
     private Rigidbody2D _rb;
-    private JointMotor2D _motor;
-    private bool isReversing = false;
-
-    private KeyCode accelerationKey = KeyCode.Space;    
-    private KeyCode reverseKey = KeyCode.Backspace;
+    private WheelJoint2D _rearWheel;
+    private WheelJoint2D _frontWheel;
+    private JointMotor2D _rearMotor;
+    private JointMotor2D _frontMotor;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _motor = new JointMotor2D { motorSpeed = 0, maxMotorTorque = 10000 };
+        FindRearAndFrontWheels();
+        InitializeMotors();
     }
 
     private void Update()
     {
-        CheckInput();
-        HandleMotor();
+        if (!isMovementBlocked)
+        {
+            HandleMotor();
+            HandleBalance();
+        }
     }
 
     private void FixedUpdate()
@@ -33,33 +37,58 @@ public class BikeMovementController : MonoBehaviour
         LimitSpeed();
     }
 
-    private void CheckInput()
+    private void FindRearAndFrontWheels()
     {
-         isReversing = Input.GetKey(reverseKey);
+        _wheels.Sort((w1, w2) => w1.transform.position.x.CompareTo(w2.transform.position.x));
+        _rearWheel = _wheels[0];
+        _frontWheel = _wheels[1];
+    }
+
+    private void InitializeMotors()
+    {
+        _rearMotor = _rearWheel.motor;
+        _frontMotor = _frontWheel.motor;
     }
 
     private void HandleMotor()
     {
         float targetSpeed = 0f;
-        
-        if (isReversing)
+
+        if (Input.GetMouseButton(0))
         {
-            targetSpeed = -_maxSpeed;
+            Vector3 tapPosition = Input.mousePosition;
+            Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
+
+            if (tapPosition.x > screenCenter.x)
+                targetSpeed = _maxSpeed;
+            else
+                targetSpeed = -_maxSpeed;
         }
-        else if (Input.GetKey(accelerationKey))
-        {
-            targetSpeed = _maxSpeed;
-        }       
-        _motor.motorSpeed = Mathf.MoveTowards(_motor.motorSpeed, targetSpeed, _accelerationPower * Time.deltaTime);
-       
-        foreach (var wheel in _wheels)
-        {
-            wheel.motor = _motor;
-        }        
+
+        ApplyTargetSpeed(targetSpeed);
+    }
+
+    private void ApplyTargetSpeed(float targetSpeed)
+    {
+        _rearMotor.motorSpeed = targetSpeed;
+        _rearWheel.motor = _rearMotor;
+
+        _frontMotor.motorSpeed = targetSpeed;
+        _frontWheel.motor = _frontMotor;
     }
 
     private void LimitSpeed()
-    {        
+    {
         _rb.velocity = Vector2.ClampMagnitude(_rb.velocity, _maxSpeed);
+    }
+
+    private void HandleBalance()
+    {
+        float accelerometerInput = Input.GetAxis("Horizontal"); //Input.acceleration.x;
+
+        if (accelerometerInput < 0)
+            _rearMotor.motorSpeed -= _accelerationPower * Mathf.Abs(accelerometerInput);
+        else if (accelerometerInput > 0)
+            _frontMotor.motorSpeed += _accelerationPower * Mathf.Abs(accelerometerInput);
     }
 }

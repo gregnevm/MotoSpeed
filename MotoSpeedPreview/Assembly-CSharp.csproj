@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Game\Scripts\BikeMovementController.cs" />
+    <Compile Include="Assets\Game\Scripts\LevelGameplayController.cs" />
     <Compile Include="Assets\Game\Scripts\FollowCamera.cs" />
     <Compile Include="Assets\Game\Scripts\ParallaxController.cs" />
   </ItemGroup>
