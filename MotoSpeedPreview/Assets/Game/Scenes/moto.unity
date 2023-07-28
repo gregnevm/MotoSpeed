@@ -230,7 +230,7 @@ HingeJoint2D:
   m_ConnectedRigidBody: {fileID: 1835245151}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 1
+  m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: -0.24783035, y: -0.25253573}
   m_ConnectedAnchor: {x: 0.048933834, y: 0.5603705}
   m_UseMotor: 0
@@ -239,8 +239,8 @@ HingeJoint2D:
     m_MaximumMotorForce: 10000
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: 356.3
-    m_UpperAngle: 268
+    m_LowerAngle: -28.7
+    m_UpperAngle: -13
 --- !u!50 &372613839
 Rigidbody2D:
   serializedVersion: 4
@@ -2130,8 +2130,8 @@ HingeJoint2D:
     m_MaximumMotorForce: 10000
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: 225.4
-    m_UpperAngle: 384.5
+    m_LowerAngle: 56.4
+    m_UpperAngle: 25
 --- !u!212 &1215474982
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2416,8 +2416,8 @@ HingeJoint2D:
     m_MaximumMotorForce: 10000
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: 329.1
-    m_UpperAngle: 387.8
+    m_LowerAngle: -18.4
+    m_UpperAngle: 19.5
 --- !u!212 &1263376350
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2505,8 +2505,8 @@ HingeJoint2D:
     m_MaximumMotorForce: 10000
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: 338.7
-    m_UpperAngle: 397.83
+    m_LowerAngle: -22.7
+    m_UpperAngle: 22
 --- !u!60 &1263376353
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -2872,8 +2872,8 @@ HingeJoint2D:
     m_MaximumMotorForce: 10000
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: 176.6
-    m_UpperAngle: 250.6
+    m_LowerAngle: 172
+    m_UpperAngle: 221.4
 --- !u!50 &1619933921
 Rigidbody2D:
   serializedVersion: 4
@@ -3179,8 +3179,8 @@ HingeJoint2D:
     m_MaximumMotorForce: 10000
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: -20.7
-    m_UpperAngle: 18.31
+    m_LowerAngle: -13.5
+    m_UpperAngle: -42.2
 --- !u!212 &1835245154
 SpriteRenderer:
   m_ObjectHideFlags: 0
