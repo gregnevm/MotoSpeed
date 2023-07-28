@@ -10,8 +10,6 @@ ScriptsOnlyBuild:
     Unity.2D.IK.Editor.dll:
     - UnityEditor.U2D.IK.IKEditorManager
     - UnityEditor.U2D.IK.IKGizmos
-    Unity.2D.Sprite.Editor.dll:
-    - UnityEditor.U2D.Sprites.SpriteEditorWindow
     Unity.2D.SpriteShape.Runtime.dll:
     - UnityEngine.U2D.SpriteShape
     - UnityEngine.U2D.SpriteShapeController
@@ -67,25 +65,25 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1656}
+      Script: {instanceID: 1658}
     - Class: 114
-      Script: {instanceID: 2368}
+      Script: {instanceID: 1782}
     - Class: 114
-      Script: {instanceID: 2452}
+      Script: {instanceID: 2372}
     - Class: 114
-      Script: {instanceID: 2580}
+      Script: {instanceID: 2456}
     - Class: 114
-      Script: {instanceID: 2736}
+      Script: {instanceID: 2584}
     - Class: 114
-      Script: {instanceID: 2950}
+      Script: {instanceID: 2740}
     - Class: 114
-      Script: {instanceID: 3176}
+      Script: {instanceID: 2954}
     - Class: 114
-      Script: {instanceID: 3306}
+      Script: {instanceID: 3180}
     - Class: 114
-      Script: {instanceID: 4140}
+      Script: {instanceID: 3310}
     - Class: 114
-      Script: {instanceID: 22212}
+      Script: {instanceID: 4144}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -100,11 +98,9 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 224
       Script: {instanceID: 0}
+    - Class: 233
+      Script: {instanceID: 0}
     - Class: 235
-      Script: {instanceID: 0}
-    - Class: 254
-      Script: {instanceID: 0}
-    - Class: 255
       Script: {instanceID: 0}
     - Class: 1971053207
       Script: {instanceID: 0}
@@ -159,7 +155,7 @@ ScriptsOnlyBuild:
     className: LayoutElement
   - hash:
       serializedVersion: 2
-      Hash: 5289f9f56052d600e7534dbc46c7f662
+      Hash: 6d474bbbf1dcebcc4bf72607f08e2372
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: BikeMovementController
@@ -187,6 +183,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: Shadow
+  - hash:
+      serializedVersion: 2
+      Hash: 8bf73968f2b416fe5b7087e7132c6412
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: LevelGameplayController
   - hash:
       serializedVersion: 2
       Hash: 300fd99066f8c288e85f5e81ce65fe34
@@ -645,11 +647,11 @@ ScriptsOnlyBuild:
     className: FabrikSolver2D
   - hash:
       serializedVersion: 2
-      Hash: 8bf73968f2b416fe5b7087e7132c6412
+      Hash: 9359c1db0582dccc43606c31202c5a31
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: LevelGameplayController
+    className: WheelsController
   platform: 13
   scenePathNames:
   - Assets/Game/Scenes/moto.unity
-  playerPath: C:/Users/gregn/Documents/NFMS/NFMS.apk
+  playerPath: C:/Users/gregn/Desktop/NFMS.apk

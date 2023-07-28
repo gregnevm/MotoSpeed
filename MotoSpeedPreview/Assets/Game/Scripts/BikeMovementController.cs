@@ -1,94 +1,81 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
 public class BikeMovementController : MonoBehaviour
-{
-    [SerializeField] private float _accelerationPower = 10f;
-    [SerializeField] private float _maxSpeed = 3f;
-    [SerializeField] private List<WheelJoint2D> _wheels;
+{   
+    [SerializeField] private float _motorSpeed;
 
-    public static bool isMovementBlocked;
+    [SerializeField] private WheelJoint2D _backWheel;
+    [SerializeField] private WheelJoint2D _forwardWheel;
 
-    private Rigidbody2D _rb;
-    private WheelJoint2D _rearWheel;
-    private WheelJoint2D _frontWheel;
-    private JointMotor2D _rearMotor;
-    private JointMotor2D _frontMotor;
-
-    private void Start()
+    private float _forwardWheelMultiplier = 1f;
+    private float _backWheelMultiplier = 1f;
+    private void FixedUpdate()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        FindRearAndFrontWheels();
-        InitializeMotors();
+        Move();
     }
 
     private void Update()
     {
-        if (!isMovementBlocked)
-        {
-            HandleMotor();
-            HandleBalance();
-        }
+        Balance();
     }
-
-    private void FixedUpdate()
+    private void Move()
     {
-        LimitSpeed();
-    }
-
-    private void FindRearAndFrontWheels()
-    {
-        _wheels.Sort((w1, w2) => w1.transform.position.x.CompareTo(w2.transform.position.x));
-        _rearWheel = _wheels[0];
-        _frontWheel = _wheels[1];
-    }
-
-    private void InitializeMotors()
-    {
-        _rearMotor = _rearWheel.motor;
-        _frontMotor = _frontWheel.motor;
-    }
-
-    private void HandleMotor()
-    {
-        float targetSpeed = 0f;
-
+        float input = 0f;
         if (Input.GetMouseButton(0))
         {
             Vector3 tapPosition = Input.mousePosition;
             Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
 
-            if (tapPosition.x > screenCenter.x)
-                targetSpeed = _maxSpeed;
-            else
-                targetSpeed = -_maxSpeed;
+            input = tapPosition.x > screenCenter.x ? 1 : -1;
         }
 
-        ApplyTargetSpeed(targetSpeed);
+        if (input != 0)
+        {
+            JointMotor2D motor = new JointMotor2D()
+            {
+                motorSpeed = _motorSpeed * input * _backWheelMultiplier,
+                maxMotorTorque = 10000
+            };
+
+            _backWheel.motor = motor;
+
+            motor = new JointMotor2D()
+            {
+                motorSpeed = _motorSpeed * input * _forwardWheelMultiplier,
+                maxMotorTorque = 10000
+            };
+
+            motor.motorSpeed *= _forwardWheelMultiplier;
+            _forwardWheel.motor = motor;
+        }
+        else
+        {
+            _backWheel.useMotor = false;
+            _forwardWheel.useMotor = false;
+        }
     }
-
-    private void ApplyTargetSpeed(float targetSpeed)
+    private void Balance()
     {
-        _rearMotor.motorSpeed = targetSpeed;
-        _rearWheel.motor = _rearMotor;
-
-        _frontMotor.motorSpeed = targetSpeed;
-        _frontWheel.motor = _frontMotor;
-    }
-
-    private void LimitSpeed()
-    {
-        _rb.velocity = Vector2.ClampMagnitude(_rb.velocity, _maxSpeed);
-    }
-
-    private void HandleBalance()
-    {
-        float accelerometerInput = Input.GetAxis("Horizontal"); //Input.acceleration.x;
-
-        if (accelerometerInput < 0)
-            _rearMotor.motorSpeed -= _accelerationPower * Mathf.Abs(accelerometerInput);
-        else if (accelerometerInput > 0)
-            _frontMotor.motorSpeed += _accelerationPower * Mathf.Abs(accelerometerInput);
+        float input = Input.acceleration.x;
+#if UNITY_EDITOR
+        input = Input.GetAxis("Horizontal");
+#endif
+        if (input < 0)
+        {
+            _backWheelMultiplier = 1.5f*-input;
+            _forwardWheelMultiplier = 0.75f*-input;
+        }
+        else if (input > 0)
+        {
+            _backWheelMultiplier = 0.75f*input;
+            _forwardWheelMultiplier = 1.5f*input;
+        }
+        else
+        {
+            _backWheelMultiplier = 1;
+            _forwardWheelMultiplier = 1;
+        }
     }
 }

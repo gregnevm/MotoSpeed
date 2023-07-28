@@ -60,6 +60,7 @@
     <Compile Include="Assets\Game\Scripts\LevelGameplayController.cs" />
     <Compile Include="Assets\Game\Scripts\FollowCamera.cs" />
     <Compile Include="Assets\Game\Scripts\ParallaxController.cs" />
+    <Compile Include="Assets\WheelsController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

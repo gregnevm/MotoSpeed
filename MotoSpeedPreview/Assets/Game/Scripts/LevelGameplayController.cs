@@ -10,6 +10,8 @@ public class LevelGameplayController : MonoBehaviour
     [Range(0, 1f)]
     [SerializeField] private float _endGameSlowMotion = 0.3f;
 
+    public static bool IsMovementBlocked { get; private set; }
+
     private float _originalTimeScale;
     private Color _originalSpriteColor;
     private bool _isGameEnded = false;
@@ -42,7 +44,7 @@ public class LevelGameplayController : MonoBehaviour
             if (AreColliding(collisionPair))
             {
                 EndGame();
-                break; // We don't need to check other collisions if the game has already ended
+                break; 
             }
         }
     }
@@ -54,13 +56,13 @@ public class LevelGameplayController : MonoBehaviour
 
     private void EndGame()
     {
-        _isGameEnded = true; // Set the flag to avoid calling EndGame multiple times
+        _isGameEnded = true; 
         StartCoroutine(EndGameEffect());
     }
 
     private System.Collections.IEnumerator EndGameEffect()
     {
-        BikeMovementController.isMovementBlocked = true;
+        IsMovementBlocked = true;
         _endGameSound.Play();
         Time.timeScale = _endGameSlowMotion;
 
@@ -86,13 +88,12 @@ public class LevelGameplayController : MonoBehaviour
     {
         Time.timeScale = _originalTimeScale;
         _endGameSprite.color = _originalSpriteColor;
-        _isGameEnded = false; // Reset the game ended flag to allow checking collisions again
-        BikeMovementController.isMovementBlocked = false;
+        _isGameEnded = false; 
+        IsMovementBlocked = false;
     }
 
     private void RestartLevel()
     {
-        // Restart the scene by reloading it
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 }
